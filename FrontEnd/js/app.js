@@ -32,8 +32,3 @@ function setFigure(data) {
 
 
 }
-
-
-
-
-
