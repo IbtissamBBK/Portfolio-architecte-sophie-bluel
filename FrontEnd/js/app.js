@@ -9,7 +9,7 @@ async function getWorks(filter) {
         const json = await response.json();
 
         let filteredWorks = json;
-        if (filter !== undefined) {
+        if (filter) {
             filteredWorks = json.filter((data) => data.categoryId === filter);
         }
 
