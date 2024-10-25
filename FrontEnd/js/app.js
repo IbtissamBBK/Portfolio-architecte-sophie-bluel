@@ -1,5 +1,4 @@
-
-async function getWorks() {
+async function getWorks(filter) {
     const url = "http://localhost:5678/api/works";
     try {
         const response = await fetch(url);
@@ -9,17 +8,22 @@ async function getWorks() {
 
         const json = await response.json();
 
-
-        for (let i = 0; i < json.length; i++) {
-            setFigure(json[i]);
-
+        let filteredWorks = json;
+        if (filter !== undefined) {
+            filteredWorks = json.filter((data) => data.categoryId === filter);
         }
+
+        document.querySelector('.gallery').innerHTML = ""; // Vide la galerie avant d'ajouter les nouvelles images
+        for (let i = 0; i < filteredWorks.length; i++) {
+            setFigure(filteredWorks[i]);
+        }
+
     } catch (error) {
         console.error(error.message);
     }
 }
 
-getWorks()
+getWorks();
 
 
 function setFigure(data) {
@@ -43,9 +47,16 @@ async function getCategories() {
         const json = await response.json();
         console.log(json);
 
+        // Ajoute un bouton pour "Tous"
+        const allDiv = document.createElement("div");
+        allDiv.textContent = "Tous";
+        allDiv.addEventListener("click", () => getWorks(undefined)); // Affiche tous les travaux
+        document.querySelector('.div-container').append(allDiv);
+
+        // Ajoute les autres catégories
         for (let i = 0; i < json.length; i++) {
-             setFilter(json[i]);
-         }
+            setFilter(json[i]);
+        }
 
     } catch (error) {
         console.error(error.message);
@@ -55,10 +66,13 @@ async function getCategories() {
 getCategories();
 
 
-function setFilter (data) {
+function setFilter(data) {
     const div = document.createElement("div");
+    div.addEventListener("click", () => getWorks(data.id)); // Utilise l'ID de la catégorie pour filtrer
     div.innerHTML = `${data.name}`;
-
     document.querySelector('.div-container').append(div);
-
 }
+
+
+
+
