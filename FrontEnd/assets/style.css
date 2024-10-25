@@ -128,9 +128,24 @@ li:hover {
 
 .div-container {
 	display: flex;
-	width: 70%;
-	justify-content: space-around;
-	margin: 0 auto;
+	justify-content: center;
+	gap: 10px;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.div-container > * {
+	padding: 9px 1em;
+	border: 1px solid #1D6154;
+	border-radius: 25px;
+	font-family: 'Syne';
+	color: #1D6154;
+	cursor: pointer;
+}
+
+.div-container > *:hover {
+	background-color: #1D6154;
+	color: white;
 }
 
 
