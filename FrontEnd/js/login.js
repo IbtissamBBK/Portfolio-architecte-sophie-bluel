@@ -1,5 +1,6 @@
 document.getElementById('login-form').addEventListener('submit', async function(event) {
-    event.preventDefault(); // Empêche le formulaire de se soumettre de manière classique
+                         
+event.preventDefault(); // Désactivation du comportement par défaut du navigateur
 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -12,5 +13,14 @@ document.getElementById('login-form').addEventListener('submit', async function(
         body: JSON.stringify({ email, password })
     });
 
+    const result = await response.json();
 
+    if (response.ok) {
+        // Stocker le token et rediriger vers la page d'accueil
+        localStorage.setItem('authToken', result.token);
+        window.location.href = 'index.html'; // Redirection vers la page d'accueil
+    } else {
+        // Affiche le  message d'erreur
+        document.getElementById('error-message').style.display = 'block';
+    }
 });
