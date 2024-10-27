@@ -53,6 +53,8 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	margin-top: 70px;
+
 }
 header {
 	display: flex;
@@ -157,6 +159,20 @@ li:hover {
     text-align: center;
 }
 
+.edit {
+	background-color: black;
+	color: white;
+	height: 50px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	
+
+}
 
 
 .gallery {
