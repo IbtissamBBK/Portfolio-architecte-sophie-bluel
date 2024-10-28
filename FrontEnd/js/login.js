@@ -1,8 +1,8 @@
 
 // Sélection du form avec l'id et ajout d'un événement pour la soumission du formulaire
-document.getElementById('login-form').addEventListener('submit', async function(event) {
-                         
-event.preventDefault(); // Désactivation du comportement par défaut du navigateur
+document.getElementById('login-form').addEventListener('submit', async function (event) {
+
+    event.preventDefault(); // Désactivation du comportement par défaut du navigateur
 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -16,15 +16,14 @@ event.preventDefault(); // Désactivation du comportement par défaut du navigat
         body: JSON.stringify({ email, password }) // Convertit l'email et le mot de passe en chaîne JSON avant l'envoi
     });
 
-    // Attend la réponse JSON de l'API (qui contient le token ou une erreur)
-    const result = await response.json();
-
+    let result = await response.json();
+    
     if (response.ok) {
-        
-        localStorage.setItem('authToken', result.token); // Si la connexion est réussie, stocke le token d'authentification dans le localStorage du navigateur
-        window.location.href = 'index.html'; // Redirection vers la page d'accueil
+        const token = result.token; // Recup token depuis le résult de l'API
+        localStorage.setItem('authToken', token); // Si la connexion est ok, stocke le token
+        window.location.href = 'index.html'; // Redirection vers la page d'accueil si response ok
     } else {
-        
-        document.getElementById('error-message').style.display = 'block';// Si connexion échoue cela affiche le  message d'erreur
+        document.getElementById('error-message').style.display = 'block'; // Si connexion échoue = message d'erreur
     }
 });
+
