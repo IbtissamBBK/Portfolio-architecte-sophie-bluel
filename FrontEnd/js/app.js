@@ -45,7 +45,7 @@ async function getCategories() {
         }
 
         const json = await response.json();
-        console.log(json);
+        
 
         // Ajoute un bouton pour "Tous"
         const allDiv = document.createElement("div");
@@ -73,6 +73,37 @@ function setFilter(data) {
     document.querySelector('.div-container').append(div);
 }
 
+
+function displayAdminMode () {
+
+    const authToken = localStorage.getItem('authToken'); // Récup token dans localStorage
+    const loginButton = document.getElementById('login-button'); 
+
+    if (authToken) { // Si token ok, l'user est connecté
+       
+        const editBanner = document.createElement("div");
+        editBanner.className = 'edit';
+        editBanner.innerHTML = 
+        '<p><i class="fa-regular fa-pen-to-square"></i>Mode édition</p>';
+        document.body.prepend(editBanner); // Début du body
+
+        // Modification le bouton "login" en "logout"
+        loginButton.textContent = "logout";
+        loginButton.href = "#"; // Désactive redirection vers page de connexion
+        loginButton.addEventListener('click', function() {
+            
+            localStorage.removeItem('authToken'); // Delete le token du localStorage pour déco l'user
+            window.location.href = 'index.html'; // Reload la page
+        });
+    } else {
+        // Aucun token, garder le bouton "login" actif
+        loginButton.textContent = "login";
+        loginButton.href = "./login.html"; // Redirection vers la page de connexion
+    }
+}
+
+// Exécute la fonction displayAdminMode lorsque la page est complètement chargée
+window.addEventListener('DOMContentLoaded', displayAdminMode);
 
 
 
