@@ -32,12 +32,26 @@ function setFigure(data) { // Insère figure HTML (image + titre) dans la galler
     const figure = document.createElement("figure")
     figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
 				<figcaption>${data.title}</figcaption>`;
+                
 
     document.querySelector('.gallery').append(figure);
-
+   
+    const figureClone = figure.cloneNode(true);
+    document.querySelector('.gallery-modal').append(figureClone);
+    figureClone.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
+                <i class="fa-solid fa-trash-can delete-icon" onclick="deletePhoto('${data.id}')"></i>`
 }
 
+// Fonction pour supprimer une photo (à ajuster avec ta logique)
+function deletePhoto(photoId) {
+    console.log("Supprimer la photo avec l'id:", photoId);
+    // Logique pour supprimer la photo, ex: en utilisant l'API pour supprimer depuis la base de données
+}
+
+
+
 async function getCategories() {
+
     const url = "http://localhost:5678/api/categories";
     try {
         const response = await fetch(url);
@@ -46,7 +60,7 @@ async function getCategories() {
         }
 
         const json = await response.json();
-        
+
 
         // Ajout d'un bouton "Tous"
         const allDiv = document.createElement("div");
@@ -76,10 +90,10 @@ function setFilter(data) { // Fonction pour ajouter un filtre de catégorie
 
 
 
-function displayAdminMode () {
+function displayAdminMode() {
 
     const authToken = localStorage.getItem('authToken'); // Récup token dans localStorage
-    const loginButton = document.getElementById('login-button'); 
+    const loginButton = document.getElementById('login-button');
     const filtersContainer = document.querySelector('.filtersContainer'); // Sélectionne la section des filtres
 
     if (authToken) { // Si token ok, l'user est connecté
@@ -87,28 +101,28 @@ function displayAdminMode () {
         if (filtersContainer) {
             filtersContainer.style.display = 'none';
         }
-       
+
         const editBanner = document.createElement("div");
         editBanner.className = 'edit';
-        editBanner.innerHTML = 
-    '<a href="#modal" class="js-modal"><i class="fa-regular fa-pen-to-square"></i>Mode édition</a>';
+        editBanner.innerHTML =
+            '<a href="#modal" class="js-modal"><i class="fa-regular fa-pen-to-square"></i>Mode édition</a>';
         document.body.prepend(editBanner); // Début du body
 
         // Modification le bouton "login" en "logout"
         loginButton.textContent = "logout";
         loginButton.href = "#"; // Désactive redirection vers page de connexion
-        loginButton.addEventListener('click', function() {
-            
+        loginButton.addEventListener('click', function () {
+
             localStorage.removeItem('authToken'); // Delete le token du localStorage pour déco l'user
             window.location.href = 'index.html'; // Reload la page
         });
-    
+
     } else {
-        
+
         if (filtersContainer) {
             filtersContainer.style.display = 'flex';
         }
-        
+
         // Aucun token, garder le bouton "login" actif
         loginButton.textContent = "login";
         loginButton.href = "./login.html"; // Redirection vers la page de connexion
@@ -116,9 +130,9 @@ function displayAdminMode () {
 }
 
 // Exécute la fonction displayAdminMode lorsque la page est complètement chargée
-window.addEventListener('DOMContentLoaded', displayAdminMode) ;
+window.addEventListener('DOMContentLoaded', displayAdminMode);
 
-displayAdminMode ()
+displayAdminMode()
 
 
 
