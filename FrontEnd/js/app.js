@@ -25,31 +25,6 @@ async function getWorks(filter) { // Récup travaux depuis l'API et filtrer en f
 
 getWorks();  // Appelle la fonction pour récup tous les travaux au reload
 
-
-
-function setFigure(data) { // Insère figure HTML (image + titre) dans la gallerie
-
-    const figure = document.createElement("figure")
-    figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
-				<figcaption>${data.title}</figcaption>`;
-
-
-    document.querySelector('.gallery').append(figure);
-
-    const figureClone = figure.cloneNode(true);
-    document.querySelector('.gallery-modal').append(figureClone);
-    figureClone.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
-                <i class="fa-solid fa-trash-can delete-icon" onclick="deletePhoto('${data.id}')"></i>`
-}
-
-// Fonction pour supprimer une photo (à ajuster avec ta logique)
-function deletePhoto(photoId) {
-    console.log("Supprimer la photo avec l'id:", photoId);
-    // Logique pour supprimer la photo, ex: en utilisant l'API pour supprimer depuis la base de données
-}
-
-
-
 async function getCategories() {
 
     const url = "http://localhost:5678/api/categories";
@@ -81,13 +56,38 @@ async function getCategories() {
 getCategories(); // Récup catégories et génère un bouton pour chaque catégorie 
 
 
+function setFigure(data) { // Insère figure HTML (image + titre) dans la gallerie
+
+    const figure = document.createElement("figure")
+    figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
+				<figcaption>${data.title}</figcaption>`;
+
+
+    document.querySelector('.gallery').append(figure);
+
+    const figureClone = figure.cloneNode(true);
+    document.querySelector('.gallery-modal').append(figureClone);
+    figureClone.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
+                <i class="fa-solid fa-trash-can delete-icon" onclick="deletePhoto('${data.id}')"></i>`
+}
+
+
+function deletePhoto(photoId) {
+    console.log('Supprimer la photo avec l\'id:', photoId);
+    // Logique pour supprimer la photo, ex: en utilisant l'API pour supprimer depuis la base de données
+}
+
+
+
+
+
+
 function setFilter(data) { // Fonction pour ajouter un filtre de catégorie
     const div = document.createElement("div");
     div.addEventListener("click", () => getWorks(data.id)); // Utilise l'ID de la catégorie pour filtrer
     div.innerHTML = `${data.name}`; // Ajout nom de la catégorie pour div
     document.querySelector('.filtersContainer').append(div);  // Insère le div dans le conteneur
 }
-
 
 
 function displayAdminMode() {
@@ -154,9 +154,6 @@ window.addEventListener('DOMContentLoaded', displayAdminMode);
 displayAdminMode()
 
 
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('modal');
 
@@ -200,3 +197,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
