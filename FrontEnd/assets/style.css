@@ -187,12 +187,17 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
+}
 
+nav a {
+	text-decoration: none;
+	color: inherit;
 }
 
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+
 }
 
 li:hover {
@@ -226,22 +231,30 @@ li:hover {
 	margin-bottom: 0.5em;
 }
 
-#portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
+.projets {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 5em;
+
+
 }
 
+.projets h2 {
+	text-align: center;
+	margin-right: 15px;
 
+}
 
+.projets a {
+	margin-left: 10px;
+	text-decoration: none;
+    color: inherit; 
+}
 
-
-
-
-
-
-
-
-
+.projets a:hover {
+	color: #B1663C;
+}
 
 /* ADDING PART */
 .filtersContainer {
@@ -278,21 +291,24 @@ li:hover {
 	background-color: black;
 	height: 50px;
 	width: 100%;
-	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: absolute;
 	top: 0;
 	left: 0;
+	color: white;
+
 }
 
-.edit a {
-	color: white;
+.edit p {
+    display: flex;
+    align-items: center;
 }
 
-.edit a:visited {
-	color: white;
+.edit i {
+    margin-right: 8px; /* Espace entre l'icône et le texte */
 }
+
 
 .gallery {
 	width: 100%;
@@ -324,11 +340,10 @@ li:hover {
 		font-weight: 400;
 		font-size: 26px;
 		padding-top: 40px;
-		padding-bottom: 36px;
+		padding-bottom: 46px;
 		text-align: center;
 		
 	}
-
 }
 
 .modal-wrapper {
@@ -380,10 +395,11 @@ li:hover {
 	background-color: #1D6154;
 	color: white;
 	cursor: pointer;
-	padding: 9px 4em;
+	padding: 10px 3em;
 	border: none;
 	border-radius: 25px;
 	font-family: 'Syne';
+	font-size: 14px;
 }
 
 .delete-icon {
@@ -399,8 +415,8 @@ li:hover {
 
 #close-modal {
 	position: absolute;
-	top: 15px;
-	right: 15px;
+	top: 26px;
+	right: 26px;
 	background: transparent;
 	border: none;
 
