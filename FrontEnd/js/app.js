@@ -32,10 +32,10 @@ function setFigure(data) { // Insère figure HTML (image + titre) dans la galler
     const figure = document.createElement("figure")
     figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
 				<figcaption>${data.title}</figcaption>`;
-                
+
 
     document.querySelector('.gallery').append(figure);
-   
+
     const figureClone = figure.cloneNode(true);
     document.querySelector('.gallery-modal').append(figureClone);
     figureClone.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
@@ -95,6 +95,7 @@ function displayAdminMode() {
     const authToken = localStorage.getItem('authToken'); // Récup token dans localStorage
     const loginButton = document.getElementById('login-button');
     const filtersContainer = document.querySelector('.filtersContainer'); // Sélectionne la section des filtres
+    const editBanner = document.querySelector('.edit'); // Sélectionne la section des filtres
 
     if (authToken) { // Si token ok, l'user est connecté
 
@@ -102,11 +103,25 @@ function displayAdminMode() {
             filtersContainer.style.display = 'none';
         }
 
-        const editBanner = document.createElement("div");
-        editBanner.className = 'edit';
-        editBanner.innerHTML =
-            '<a href="#modal" class="js-modal"><i class="fa-regular fa-pen-to-square"></i>Mode édition</a>';
-        document.body.prepend(editBanner); // Début du body
+        if (editBanner) {
+            editBanner.style.display = 'flex'; // Affiche la bannière d'édition
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const h2Element = document.querySelector('#portfolio h2'); // Sélectionne le h2 dans la section portfolio
+            if (h2Element) {
+                // Vérifie si le lien "Modifier" existe déjà
+                if (!document.querySelector('#portfolio .js-modal')) {
+                    const editModifications = document.createElement("div");
+                    editModifications.innerHTML =
+                        '<a href="#modal" class="js-modal"><i class="fa-regular fa-pen-to-square"></i> Modifier</a>';
+                    
+                   
+                    h2Element.parentNode.insertBefore(editModifications, h2Element.nextSibling); // Insère le bouton après le h2
+                }
+            }
+        });
+
 
         // Modification le bouton "login" en "logout"
         loginButton.textContent = "logout";
@@ -121,6 +136,10 @@ function displayAdminMode() {
 
         if (filtersContainer) {
             filtersContainer.style.display = 'flex';
+        }
+
+        if (editBanner) {
+            editBanner.style.display = 'none'; // Cache la bannière d'édition
         }
 
         // Aucun token, garder le bouton "login" actif
