@@ -29,6 +29,35 @@
 			<button class="add-photo-button">Ajouter une photo</button>
 		</div>
 	</aside>
+
+	<!-- <aside id="modalAddWork" class="modal" aria-hidden="true" role="dialog" style="display: none">
+		<div class="modal-wrapper">
+			<button class="back-modal"><i class="fa-solid fa-arrow-left"></i></i></button>
+			<button id="close-modal"><i class="fa-solid fa-xmark"></i></button>
+
+			<h3>Ajout photo</h3>
+			<form id="formAddWork">
+				<div class="containerAddPhoto">
+					<i class="fa-regular fa-image"></i>
+					<label for="file" class="labelFile">+ Ajouter photo</label>
+					<p>jpg, png : 4mo max</p>
+					<input type="file" name="image" id="file" accept="image/jpg, image/png" required
+						style="display: none;">
+					<img id="previewImage" src="#" alt="Aperçu de l'image" style="display: none;">
+				</div>
+				<label for="title">Titre</label>
+				<input type="text" name="title" id="title" required>
+				<label for="categoryInput">Catégorie</label>
+				<select id="categoryInput" name="category" required></select>
+				<div class="border-line"></div>
+				<button type="submit" id="addWorkButton">Valider</button>
+			</form>
+		</div>
+	</aside> -->
+
+
+
+	
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
@@ -56,16 +85,18 @@
 					décorateur(trice)</p>
 			</article>
 		</section>
+		
+		
 		<section id="portfolio">
 			<div class="projets">
 				<h2>Mes Projets</h2>
 			</div>
-			
-			<div class="filtersContainer">
-			</div>
-			<div class="gallery">
-			</div>
+
+			<div class="filtersContainer"></div>
+			<div class="gallery"></div>
 		</section>
+		
+		
 		<section id="contact">
 			<h2>Contact</h2>
 			<p>Vous avez un projet ? Discutons-en !</p>
