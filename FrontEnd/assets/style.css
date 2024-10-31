@@ -422,6 +422,128 @@ li:hover {
 
 }
 
+/* .js-modal-back {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	color: #333;
+	cursor: pointer;
+  }
+
+  .fa-arrow-left {
+	font-size: 24px;
+	margin: 16px 0px 0 20px;
+  }
+  
+
+  #addWorkButton {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	font-family: "Syne";
+	font-size: 14px;
+	font-weight: 700;
+	background-color: #a7a7a7;
+	color: white;
+	border-radius: 60px;
+	width: 237px;
+	height: 36px;
+	margin-bottom: 25px;
+	cursor: pointer;
+	border: none;
+	transition: background-color 0.3s, color 0.3s;
+  }
+
+  #addWorkButton:hover {
+	background-color: white !important;
+	color: #1d6154 !important;
+	border: 1px solid #1d6154 !important;
+  }
+
+  #formAddWork {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+  }
+  
+  #formAddWork input[type="text"],
+  #formAddWork select {
+	padding: 18px;
+  }
+  
+  .containerAddPhoto {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 7px;
+	background-color: #e8f1f6;
+	padding: 19px;
+	border-radius: 3px;
+	margin-bottom: 9px;
+  }
+  
+  #previewImage {
+	max-height: 160px;
+  }
+  
+  .labelFile {
+	color: #306685;
+	background-color: #cbd6dc;
+	padding: 10px 33px;
+	border-radius: 50px;
+  }
+  
+  label {
+	font-size: 14px;
+	font-weight: 500;
+	padding-top: 11px;
+  }
+  
+  #categoryInput,
+  #title {
+	border: none;
+	background: #fff;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+  }
+  
+  .fa-image {
+	font-size: 76px;
+	color: #cbd6dc;
+	margin: 0;
+  } */
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
