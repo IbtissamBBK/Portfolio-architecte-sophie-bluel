@@ -79,9 +79,6 @@ function deletePhoto(photoId) {
 
 
 
-
-
-
 function setFilter(data) { // Fonction pour ajouter un filtre de catégorie
     const div = document.createElement("div");
     div.addEventListener("click", () => getWorks(data.id)); // Utilise l'ID de la catégorie pour filtrer
@@ -156,6 +153,7 @@ displayAdminMode()
 
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('modal');
+    const modalAddWork = document.getElementById('modalAddWork');
 
     // Fonction pour ouvrir la modale
     const openModal = function (e) {
@@ -178,6 +176,12 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.setAttribute('aria-hidden', 'true');
             modal.removeAttribute('aria-modal');
         }
+
+        if (modalAddWork) {
+            modalAddWork.style.display = 'none';
+            modalAddWork.setAttribute('aria-hidden', 'true');
+            modalAddWork.removeAttribute('aria-modal');
+        }
     };
 
     // Ajoute un événement de clic pour ouvrir la modale sur les éléments ayant la classe "js-modal"
@@ -191,10 +195,46 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModalButton.addEventListener('click', closeModal);
     }
 
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) { // Vérifie que le clic est bien en dehors de la modal-wrapper
-            closeModal();
-        }
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    }
+
+    const closeModalAddWorkButton = document.getElementById('close-modal');
+    if (closeModalAddWorkButton) {
+        closeModalAddWorkButton.addEventListener('click', closeModal);
+    }
+
+    if (modalAddWork) {
+        modalAddWork.addEventListener('click', (e) => {
+            if (e.target === modalAddWork) {
+                closeModal();
+            }
+        });
+    }
+
+    document.querySelector('.add-photo-button').addEventListener('click', function() {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('modalAddWork').style.display = 'flex';
+    });
+    
+    document.querySelector('.back-modal').addEventListener('click', function() {
+        document.getElementById('modalAddWork').style.display = 'none';
+        document.getElementById('modal').style.display = 'flex';
+    });
+    
+    document.getElementById('close-modal-add-work').addEventListener('click', function() {
+        document.getElementById('modalAddWork').style.display = 'none';
     });
 });
+
+
+
+
+
+
+
 
