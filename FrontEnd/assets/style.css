@@ -249,14 +249,14 @@ li:hover {
 .projets a {
 	margin-left: 10px;
 	text-decoration: none;
-    color: inherit; 
+	color: inherit;
 }
 
 .projets a:hover {
 	color: #B1663C;
 }
 
-/* ADDING PART */
+
 .filtersContainer {
 	display: flex;
 	justify-content: center;
@@ -301,12 +301,13 @@ li:hover {
 }
 
 .edit p {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .edit i {
-    margin-right: 8px; /* Espace entre l'icône et le texte */
+	margin-right: 8px;
+	/* Espace entre l'icône et le texte */
 }
 
 
@@ -322,6 +323,8 @@ li:hover {
 	width: 100%;
 }
 
+
+/***********************MODAL*********************/
 
 .modal {
 	position: fixed;
@@ -339,10 +342,10 @@ li:hover {
 		font-family: 'Work Sans';
 		font-weight: 400;
 		font-size: 26px;
-		padding-top: 40px;
-		padding-bottom: 46px;
+		padding-top: 36px;
+		padding-bottom: 42px;
 		text-align: center;
-		
+
 	}
 }
 
@@ -355,7 +358,7 @@ li:hover {
 	width: 590px;
 	max-width: calc(100% - 40px);
 	max-height: calc(100vh - 20px);
-	padding: 20px;
+	padding: 16px;
 	background-color: #fff;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
@@ -365,11 +368,10 @@ li:hover {
 .gallery-modal {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
-	gap: 10px;
 	justify-content: center;
-	grid-column-gap: 6px;
+	grid-column-gap: 9px;
 	grid-row-gap: 25px;
-	margin-bottom: 30px;
+	margin-bottom: 16px;
 	width: 419px;
 }
 
@@ -390,16 +392,30 @@ li:hover {
 }
 
 .add-photo-button {
-	display: flex;
-	margin-bottom: 25px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	font-family: "Syne";
+	font-size: 14px;
+	font-weight: 700;
 	background-color: #1D6154;
 	color: white;
+	border-radius: 60px;
+	width: 237px;
+	height: 36px;
+	margin-bottom: 16px;
 	cursor: pointer;
-	padding: 10px 3em;
 	border: none;
-	border-radius: 25px;
-	font-family: 'Syne';
-	font-size: 14px;
+	transition: background-color 0.3s, color 0.3s, border 0.3s;
+}
+
+
+
+.add-photo-button:hover {
+	background-color: white;
+	;
+	color: #1d6154;
+	border: 1px solid #1d6154;
 }
 
 .delete-icon {
@@ -419,10 +435,22 @@ li:hover {
 	right: 26px;
 	background: transparent;
 	border: none;
+	font-size: 1.2rem;
+	color: #333;
 
 }
 
-/* .js-modal-back {
+#close-modal-add-work {
+	position: absolute;
+	top: 26px;
+	right: 26px;
+	background: transparent;
+	border: none;
+	font-size: 1.2rem;
+	color: #333;
+}
+
+.back-modal {
 	position: absolute;
 	top: 10px;
 	left: 10px;
@@ -431,15 +459,15 @@ li:hover {
 	font-size: 1.5rem;
 	color: #333;
 	cursor: pointer;
-  }
+}
 
-  .fa-arrow-left {
-	font-size: 24px;
+.fa-arrow-left {
+	font-size: 22px;
 	margin: 16px 0px 0 20px;
-  }
-  
+}
 
-  #addWorkButton {
+
+#addWorkButton {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -451,30 +479,30 @@ li:hover {
 	border-radius: 60px;
 	width: 237px;
 	height: 36px;
-	margin-bottom: 25px;
+	margin-bottom: 16px;
 	cursor: pointer;
 	border: none;
-	transition: background-color 0.3s, color 0.3s;
-  }
+	transition: background-color 0.3s, color 0.3s, border 0.3s;
+}
 
-  #addWorkButton:hover {
-	background-color: white !important;
-	color: #1d6154 !important;
-	border: 1px solid #1d6154 !important;
-  }
+#addWorkButton:hover {
+	background-color: white;
+	color: #1d6154;
+	border: 1px solid #1d6154;
+}
 
-  #formAddWork {
+#formAddWork {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
-  }
-  
-  #formAddWork input[type="text"],
-  #formAddWork select {
+	gap: 8px;
+}
+
+#formAddWork input[type="text"],
+#formAddWork select {
 	padding: 18px;
-  }
-  
-  .containerAddPhoto {
+}
+
+.containerAddPhoto {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -483,74 +511,45 @@ li:hover {
 	padding: 19px;
 	border-radius: 3px;
 	margin-bottom: 9px;
-  }
-  
-  #previewImage {
+}
+
+.containerAddPhoto p {
+	font-size: 12px;
+}
+
+#previewImage {
 	max-height: 160px;
-  }
-  
-  .labelFile {
+}
+
+.labelFile {
 	color: #306685;
 	background-color: #cbd6dc;
 	padding: 10px 33px;
 	border-radius: 50px;
-  }
-  
-  label {
+}
+
+label {
 	font-size: 14px;
 	font-weight: 500;
 	padding-top: 11px;
-  }
-  
-  #categoryInput,
-  #title {
+}
+
+
+
+#categoryInput,
+#title {
 	border: none;
 	background: #fff;
 	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
-  }
-  
-  .fa-image {
+}
+
+.fa-image {
 	font-size: 76px;
 	color: #cbd6dc;
 	margin: 0;
-  } */
-  
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/********************MODAL END***********************/
 
 #contact {
 	width: 50%;
