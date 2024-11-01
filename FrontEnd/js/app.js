@@ -56,6 +56,7 @@ async function getCategories() {
 getCategories(); // Récup catégories et génère un bouton pour chaque catégorie 
 
 
+
 function setFigure(data) { // Insère figure HTML (image + titre) dans la gallerie
 
     const figure = document.createElement("figure")
@@ -72,78 +73,103 @@ function setFigure(data) { // Insère figure HTML (image + titre) dans la galler
 }
 
 
-function deletePhoto(photoId) {
-    console.log('Supprimer la photo avec l\'id:', photoId);
-    // Logique pour supprimer la photo, ex: en utilisant l'API pour supprimer depuis la base de données
-}
+// async function deletePhoto(photoId) {
+//     // Construit l'URL avec l'ID du projet
+//     const url = `http://localhost:5678/api/works/${photoId}`;
+//     const authToken = localStorage.getItem('authToken'); // Récupère le token d'authentification
 
+//     try {
+//         // Envoie la requête DELETE à l'API
+//         const response = await fetch(url, {
+//             method: 'DELETE', // Méthode DELETE pour supprimer
+//             headers: {
+//                 'Authorization': `Bearer ${authToken}`, // En-tête d'authentification
+//                 'Accept': '*/*' // En-tête accept, comme dans le curl
+//             }
+//         });
+
+//         // Vérifie si la suppression est réussie
+//         if (response.ok) {
+//             console.log(`Projet avec l'ID ${photoId} supprimé avec succès.`);
+//             // Supprime l'élément du DOM si la suppression est réussie
+//             const figureToDelete = document.querySelector(`.gallery-modal figure[data-id='${photoId}']`);
+//             if (figureToDelete) {
+//                 figureToDelete.remove();
+//             }
+//         } else {
+//             console.error("Erreur lors de la suppression :", response.statusText);
+//         }
+//     } catch (error) {
+//         console.error("Erreur réseau lors de la suppression :", error);
+//     }
+// }
 
 
 function setFilter(data) { // Fonction pour ajouter un filtre de catégorie
-    const div = document.createElement("div");
-    div.addEventListener("click", () => getWorks(data.id)); // Utilise l'ID de la catégorie pour filtrer
-    div.innerHTML = `${data.name}`; // Ajout nom de la catégorie pour div
-    document.querySelector('.filtersContainer').append(div);  // Insère le div dans le conteneur
-}
+                const div = document.createElement("div");
+                div.addEventListener("click", () => getWorks(data.id)); // Utilise l'ID de la catégorie pour filtrer
+                div.innerHTML = `${data.name}`; // Ajout nom de la catégorie pour div
+                document.querySelector('.filtersContainer').append(div);  // Insère le div dans le conteneur
+            }
 
 
 function displayAdminMode() {
 
-    const authToken = localStorage.getItem('authToken'); // Récup token dans localStorage
-    const loginButton = document.getElementById('login-button');
-    const filtersContainer = document.querySelector('.filtersContainer'); // Sélectionne la section des filtres
-    const editBanner = document.querySelector('.edit'); // Sélectionne la section des filtres
+                const authToken = localStorage.getItem('authToken'); // Récup token dans localStorage
+                const loginButton = document.getElementById('login-button');
+                const filtersContainer = document.querySelector('.filtersContainer'); // Sélectionne la section des filtres
+                const editBanner = document.querySelector('.edit'); // Sélectionne la section des filtres
 
-    if (authToken) { // Si token ok, l'user est connecté
+                if (authToken) { // Si token ok, l'user est connecté
 
-        if (filtersContainer) {
-            filtersContainer.style.display = 'none';
-        }
+                    if (filtersContainer) {
+                        filtersContainer.style.display = 'none';
+                    }
 
-        if (editBanner) {
-            editBanner.style.display = 'flex'; // Affiche la bannière d'édition
-        }
+                    if (editBanner) {
+                        editBanner.style.display = 'flex'; // Affiche la bannière d'édition
+                    }
 
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const h2Element = document.querySelector('#portfolio h2'); // Sélectionne le h2 dans la section portfolio
-            if (h2Element) {
-                // Vérifie si le lien "Modifier" existe déjà
-                if (!document.querySelector('#portfolio .js-modal')) {
-                    const editModifications = document.createElement("div");
-                    editModifications.innerHTML =
-                        '<a href="#modal" class="js-modal"><i class="fa-regular fa-pen-to-square"></i> Modifier</a>';
+                    document.addEventListener('DOMContentLoaded', (event) => {
+                        const h2Element = document.querySelector('#portfolio h2'); // Sélectionne le h2 dans la section portfolio
+                        if (h2Element) {
+                            // Vérifie si le lien "Modifier" existe déjà
+                            if (!document.querySelector('#portfolio .js-modal')) {
+                                const editModifications = document.createElement("div");
+                                editModifications.innerHTML =
+                                    '<a href="#modal" class="js-modal"><i class="fa-regular fa-pen-to-square"></i> Modifier</a>';
 
 
-                    h2Element.parentNode.insertBefore(editModifications, h2Element.nextSibling); // Insère le bouton après le h2
+                                h2Element.parentNode.insertBefore(editModifications, h2Element.nextSibling); // Insère le bouton après le h2
+                            }
+                        }
+                    });
+
+
+                    // Modification le bouton "login" en "logout"
+                    loginButton.textContent = "logout";
+                    loginButton.href = "#"; // Désactive redirection vers page de connexion
+                    loginButton.addEventListener('click', function () {
+
+                        localStorage.removeItem('authToken'); // Delete le token du localStorage pour déco l'user
+                        window.location.href = 'index.html'; // Reload la page
+                    });
+
+                } else {
+
+                    if (filtersContainer) {
+                        filtersContainer.style.display = 'flex';
+                    }
+
+                    if (editBanner) {
+                        editBanner.style.display = 'none'; // Cache la bannière d'édition
+                    }
+
+                    // Aucun token, garder le bouton "login" actif
+                    loginButton.textContent = "login";
+                    loginButton.href = "./login.html"; // Redirection vers la page de connexion
                 }
             }
-        });
-
-
-        // Modification le bouton "login" en "logout"
-        loginButton.textContent = "logout";
-        loginButton.href = "#"; // Désactive redirection vers page de connexion
-        loginButton.addEventListener('click', function () {
-
-            localStorage.removeItem('authToken'); // Delete le token du localStorage pour déco l'user
-            window.location.href = 'index.html'; // Reload la page
-        });
-
-    } else {
-
-        if (filtersContainer) {
-            filtersContainer.style.display = 'flex';
-        }
-
-        if (editBanner) {
-            editBanner.style.display = 'none'; // Cache la bannière d'édition
-        }
-
-        // Aucun token, garder le bouton "login" actif
-        loginButton.textContent = "login";
-        loginButton.href = "./login.html"; // Redirection vers la page de connexion
-    }
-}
 
 // Exécute la fonction displayAdminMode lorsque la page est complètement chargée
 window.addEventListener('DOMContentLoaded', displayAdminMode);
