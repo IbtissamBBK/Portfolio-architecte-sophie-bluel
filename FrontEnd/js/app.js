@@ -112,8 +112,8 @@ function displayAdminMode() {
                     const editModifications = document.createElement("div");
                     editModifications.innerHTML =
                         '<a href="#modal" class="js-modal"><i class="fa-regular fa-pen-to-square"></i> Modifier</a>';
-                    
-                   
+
+
                     h2Element.parentNode.insertBefore(editModifications, h2Element.nextSibling); // Insère le bouton après le h2
                 }
             }
@@ -149,88 +149,6 @@ function displayAdminMode() {
 window.addEventListener('DOMContentLoaded', displayAdminMode);
 
 displayAdminMode()
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('modal');
-    const modalAddWork = document.getElementById('modalAddWork');
-
-    // Fonction pour ouvrir la modale
-    const openModal = function (e) {
-        e.preventDefault();
-
-        const href = e.target.getAttribute('href');
-        const target = document.querySelector(href);
-
-        if (target) {
-            target.style.display = 'flex'; // Affiche la modale
-            target.setAttribute('aria-hidden', 'false');
-            target.setAttribute('aria-modal', 'true');
-        }
-    };
-
-    // Fonction pour fermer la modale
-    const closeModal = function () {
-        if (modal) {
-            modal.style.display = 'none'; // Cache la modale
-            modal.setAttribute('aria-hidden', 'true');
-            modal.removeAttribute('aria-modal');
-        }
-
-        if (modalAddWork) {
-            modalAddWork.style.display = 'none';
-            modalAddWork.setAttribute('aria-hidden', 'true');
-            modalAddWork.removeAttribute('aria-modal');
-        }
-    };
-
-    // Ajoute un événement de clic pour ouvrir la modale sur les éléments ayant la classe "js-modal"
-    document.querySelectorAll('.js-modal').forEach(a => {
-        a.addEventListener('click', openModal);
-    });
-
-    // Ajoute un événement de clic pour fermer la modale lorsqu'on clique sur un bouton de fermeture dans la modale
-    const closeModalButton = document.getElementById('close-modal');
-    if (closeModalButton) {
-        closeModalButton.addEventListener('click', closeModal);
-    }
-
-    if (modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-    }
-
-    const closeModalAddWorkButton = document.getElementById('close-modal');
-    if (closeModalAddWorkButton) {
-        closeModalAddWorkButton.addEventListener('click', closeModal);
-    }
-
-    if (modalAddWork) {
-        modalAddWork.addEventListener('click', (e) => {
-            if (e.target === modalAddWork) {
-                closeModal();
-            }
-        });
-    }
-
-    document.querySelector('.add-photo-button').addEventListener('click', function() {
-        document.getElementById('modal').style.display = 'none';
-        document.getElementById('modalAddWork').style.display = 'flex';
-    });
-    
-    document.querySelector('.back-modal').addEventListener('click', function() {
-        document.getElementById('modalAddWork').style.display = 'none';
-        document.getElementById('modal').style.display = 'flex';
-    });
-    
-    document.getElementById('close-modal-add-work').addEventListener('click', function() {
-        document.getElementById('modalAddWork').style.display = 'none';
-    });
-});
-
 
 
 
