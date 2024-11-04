@@ -78,4 +78,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+
+
  
+ // Fonction pour charger les catégories depuis l'API
+ async function loadCategories() {
+     const urlCategories = 'http://localhost:5678/api/categories';  // Assurez-vous que cette URL est correcte
+     const select = document.getElementById('categoryInput');
+     select.innerHTML = ''; 
+ 
+     try {
+         const response = await fetch(urlCategories);
+         if (response.ok) {
+             const categories = await response.json();
+
+
+             categories.forEach(category => {
+                 const option = document.createElement('option');
+                 option.value = category.id;  // Utilisez l'ID de la catégorie pour la valeur
+                 option.textContent = category.name;  
+                 select.appendChild(option);
+             });
+         } else {
+             console.error("Erreur lors du chargement des catégories :", response.statusText);
+
+         }
+     } catch (error) {
+         console.error("Erreur réseau lors du chargement des catégories :", error);
+
+     }
+ }
+
+ loadCategories(); 
+
+//  document.getElementById('formAddWork').addEventListener('submit', async (event) => {
+//     event.preventDefault();
+
+//     const form = event.target;
+//     const formData = new FormData(form);
+//     const url = 'http://localhost:5678/api/works';
+//     const authToken = localStorage.getItem('authToken');
+
+//     // Vérifiez que tous les champs requis sont remplis
+//     if (!formData.get('title') || !formData.get('category') || !formData.get('image')) {
+//         alert("Tous les champs sont requis.");
+//         return;
+//     }
+
+//     try {
+//         const response = await fetch(url, {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${authToken}`
+//             },
+//             body: formData
+//         });
+
+//         if (response.ok) {
+//             alert("Nouveau projet ajouté avec succès.");
+//             form.reset();  // Réinitialiser le formulaire
+//             document.getElementById('modalAddWork').style.display = 'none';  // Fermer la modale
+//             location.reload();  // Recharger la page pour mettre à jour la galerie
+//         } else {
+//             alert("Erreur lors de l'ajout du projet.");
+//         }
+//     } catch (error) {
+//         alert("Erreur réseau lors de l'ajout du projet.");
+//     }
+// });
