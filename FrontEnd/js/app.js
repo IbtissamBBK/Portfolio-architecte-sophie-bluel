@@ -60,49 +60,46 @@ getCategories(); // Récup catégories et génère un bouton pour chaque catégo
 function setFigure(data) { // Insère figure HTML (image + titre) dans la gallerie
 
     const figure = document.createElement("figure")
-    figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
-				<figcaption>${data.title}</figcaption>`;
-
-
+    figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}><figcaption>${data.title}</figcaption>`;
     document.querySelector('.gallery').append(figure);
 
+    
     const figureClone = figure.cloneNode(true);
+    figureClone.setAttribute('data-id', data.id); 
     document.querySelector('.gallery-modal').append(figureClone);
     figureClone.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>
                 <i class="fa-solid fa-trash-can delete-icon" onclick="deletePhoto('${data.id}')"></i>`
 }
 
 
-// async function deletePhoto(photoId) {
-//     // Construit l'URL avec l'ID du projet
-//     const url = `http://localhost:5678/api/works/${photoId}`;
-//     const authToken = localStorage.getItem('authToken'); // Récupère le token d'authentification
 
-//     try {
-//         // Envoie la requête DELETE à l'API
-//         const response = await fetch(url, {
-//             method: 'DELETE', // Méthode DELETE pour supprimer
-//             headers: {
-//                 'Authorization': `Bearer ${authToken}`, // En-tête d'authentification
-//                 'Accept': '*/*' // En-tête accept, comme dans le curl
-//             }
-//         });
 
-//         // Vérifie si la suppression est réussie
-//         if (response.ok) {
-//             console.log(`Projet avec l'ID ${photoId} supprimé avec succès.`);
-//             // Supprime l'élément du DOM si la suppression est réussie
-//             const figureToDelete = document.querySelector(`.gallery-modal figure[data-id='${photoId}']`);
-//             if (figureToDelete) {
-//                 figureToDelete.remove();
-//             }
-//         } else {
-//             console.error("Erreur lors de la suppression :", response.statusText);
-//         }
-//     } catch (error) {
-//         console.error("Erreur réseau lors de la suppression :", error);
-//     }
-// }
+// Fonction pour supprimer une photo
+async function deletePhoto(photoId) {
+    const url = `http://localhost:5678/api/works/${photoId}`;
+
+    if (!confirm("Êtes-vous sûr ?")) return;
+
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                'Accept': '*/*'
+            }
+        });
+
+        if (response.ok) {
+            console.log(`Projet avec l'ID ${photoId} supprimé avec succès.`);
+            document.querySelector(`.gallery-modal figure[data-id='${photoId}']`)?.remove();
+        } 
+    } catch (error) {
+        console.error("Erreur réseau lors de la suppression :", error);
+        alert("Erreur réseau. Veuillez réessayer plus tard.");
+    }
+}
+
+
 
 
 function setFilter(data) { // Fonction pour ajouter un filtre de catégorie
