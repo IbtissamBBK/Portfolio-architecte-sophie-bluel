@@ -75,13 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
  
 
 
-
-
-
-
-
-
- 
  // Fonction pour charger les catégories depuis l'API
  async function loadCategories() {
      const urlCategories = 'http://localhost:5678/api/categories';  // Assurez-vous que cette URL est correcte
@@ -112,38 +105,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
  loadCategories(); 
 
-//  document.getElementById('formAddWork').addEventListener('submit', async (event) => {
-//     event.preventDefault();
 
-//     const form = event.target;
-//     const formData = new FormData(form);
-//     const url = 'http://localhost:5678/api/works';
-//     const authToken = localStorage.getItem('authToken');
 
-//     // Vérifiez que tous les champs requis sont remplis
-//     if (!formData.get('title') || !formData.get('category') || !formData.get('image')) {
-//         alert("Tous les champs sont requis.");
-//         return;
-//     }
 
-//     try {
-//         const response = await fetch(url, {
-//             method: 'POST',
-//             headers: {
-//                 'Authorization': `Bearer ${authToken}`
-//             },
-//             body: formData
-//         });
+ // AJOUTER UN NOUVEAU PROJET
 
-//         if (response.ok) {
-//             alert("Nouveau projet ajouté avec succès.");
-//             form.reset();  // Réinitialiser le formulaire
-//             document.getElementById('modalAddWork').style.display = 'none';  // Fermer la modale
-//             location.reload();  // Recharger la page pour mettre à jour la galerie
-//         } else {
-//             alert("Erreur lors de l'ajout du projet.");
-//         }
-//     } catch (error) {
-//         alert("Erreur réseau lors de l'ajout du projet.");
-//     }
-// });
+ document.getElementById('formAddWork').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const url = 'http://localhost:5678/api/works';
+    const authToken = localStorage.getItem('authToken');
+
+    // Vérifiez que tous les champs requis sont remplis
+    if (!formData.get('title') || !formData.get('category') || !formData.get('image')) {
+        alert("Tous les champs sont requis.");
+        return;
+    }
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: formData
+        });
+
+        if (response.ok) {
+            alert("Nouveau projet ajouté avec succès.");
+            form.reset();  // Réinitialiser le formulaire
+            document.getElementById('modalAddWork').style.display = 'none';  // Fermer la modale
+            location.reload();  // Recharger la page pour mettre à jour la galerie
+        } else {
+            alert("Erreur lors de l'ajout du projet.");
+        }
+    } catch (error) {
+        alert("Erreur réseau lors de l'ajout du projet.");
+    }
+});
+
+
+
+// Pour voir la photo en prévisualisation avant de l'ajouter
+
+const fileInput = document.getElementById('file');
+const previewImage = document.getElementById('previewImage');
+
+fileInput.addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            previewImage.src = e.target.result; // Assigne l'URL de l'image chargée
+            previewImage.style.display = 'flex'; // Rend visible l'image de prévisualisation
+        };
+        reader.readAsDataURL(file); // Lit le fichier en tant qu'URL de données
+    }
+});
