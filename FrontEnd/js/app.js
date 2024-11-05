@@ -77,25 +77,31 @@ function setFigure(data) { // Insère figure HTML (image + titre) dans la galler
 // Fonction pour supprimer une photo
 async function deletePhoto(photoId) {
     const url = `http://localhost:5678/api/works/${photoId}`;
+    const authToken = localStorage.getItem('authToken');
 
-    if (!confirm("Êtes-vous sûr ?")) return;
+    if (!confirm("Êtes-vous sûr de vouloir supprimer cette image ?")) return;
 
     try {
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                'Authorization': `Bearer ${authToken}`,
                 'Accept': '*/*'
             }
         });
 
         if (response.ok) {
-            console.log(`Projet avec l'ID ${photoId} supprimé avec succès.`);
+            console.log(`l'image avec l'ID ${photoId} a été supprimé.`);
             document.querySelector(`.gallery-modal figure[data-id='${photoId}']`)?.remove();
-        } 
+            
+            // location.reload(); ???
+
+            // document.querySelector(`.gallery figure[data-id='${photoId}']`)?.remove(); ????
+        }
+
     } catch (error) {
-        console.error("Erreur réseau lors de la suppression :", error);
-        alert("Erreur réseau. Veuillez réessayer plus tard.");
+        console.error("Erreur réseau.", error);
+        alert("Erreur réseau.");
     }
 }
 
