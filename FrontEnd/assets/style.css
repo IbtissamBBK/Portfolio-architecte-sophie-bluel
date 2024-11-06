@@ -518,6 +518,7 @@ li:hover {
 
 #previewImage {
 	max-height: 160px;
+	/* position: absolute; */
 }
 
 .labelFile {

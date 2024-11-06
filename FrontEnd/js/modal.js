@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
          }
      } catch (error) {
-         console.error("Erreur réseau lors du chargement des catégories :", error);
+         console.error("Erreur réseau :", error);
 
      }
  }
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (response.ok) {
-            alert("Nouveau projet ajouté avec succès.");
+            alert("projet ajouté avec succès.");
             form.reset();  // Réinitialiser le formulaire
             document.getElementById('modalAddWork').style.display = 'none';  // Fermer la modale
             location.reload();  // Recharger la page pour mettre à jour la galerie
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Erreur lors de l'ajout du projet.");
         }
     } catch (error) {
-        alert("Erreur réseau lors de l'ajout du projet.");
+        alert("Erreur réseau.");
     }
 });
 
@@ -158,9 +158,9 @@ fileInput.addEventListener('change', function (event) {
     if (file) {
         const reader = new FileReader();
         reader.onload = function (e) {
-            previewImage.src = e.target.result; // Assigne l'URL de l'image chargée
-            previewImage.style.display = 'flex'; // Rend visible l'image de prévisualisation
+            previewImage.src = e.target.result; // pour URL de l'image
+            previewImage.style.display = 'flex'; // preview visible 
         };
-        reader.readAsDataURL(file); // Lit le fichier en tant qu'URL de données
+        reader.readAsDataURL(file); // lit le fichier en tant qu'URL
     }
 });

@@ -59,11 +59,14 @@ getCategories(); // Récup catégories et génère un bouton pour chaque catégo
 
 function setFigure(data) { // Insère figure HTML (image + titre) dans la gallerie
 
+    //Page d'accueil
     const figure = document.createElement("figure")
     figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}><figcaption>${data.title}</figcaption>`;
     document.querySelector('.gallery').append(figure);
 
     
+    
+    //Première modal
     const figureClone = figure.cloneNode(true);
     figureClone.setAttribute('data-id', data.id); 
     document.querySelector('.gallery-modal').append(figureClone);
@@ -126,7 +129,7 @@ function displayAdminMode() {
                 if (authToken) { // Si token ok, l'user est connecté
 
                     if (filtersContainer) {
-                        filtersContainer.style.display = 'none';
+                        filtersContainer.style.display = 'none'; 
                     }
 
                     if (editBanner) {
