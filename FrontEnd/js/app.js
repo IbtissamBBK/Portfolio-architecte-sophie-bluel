@@ -1,61 +1,36 @@
-async function getWorks(filter) { // Récup travaux depuis l'API et filtrer en fonction de la catégorie
-    const url = "http://localhost:5678/api/works";
-    try {
-        const response = await fetch(url); // GET pour récup travaux
-        if (!response.ok) { // Vérifie si response ok 
-            throw new Error(`Response status: ${response.status}`);
-        }
-
-        const json = await response.json(); // Réponse en Json
-
-        let filteredWorks = json; // Initialise les travaux sans filtrage
-        if (filter) { // Si filter séléctionné 
-            filteredWorks = json.filter((data) => data.categoryId === filter); // Filtre les travaux en fonction de l'ID
-        }
-
-        document.querySelector('.gallery').innerHTML = ""; // Vide la galerie avant d'ajouter les nouvelles images
-        for (let i = 0; i < filteredWorks.length; i++) {
-            setFigure(filteredWorks[i]);
-        }
-
-    } catch (error) {
-        console.error(error.message);
+async function displayWorks (filter) {
+    const json = await getWorks()
+    let filteredWorks = json; // Initialise les travaux sans filtrage
+    if (filter) { // Si filter séléctionné 
+        filteredWorks = json.filter((data) => data.categoryId === filter); // Filtre les travaux en fonction de l'ID
     }
+
+    document.querySelector('.gallery').innerHTML = ""; // Vide la galerie avant d'ajouter les nouvelles images
+    for (let i = 0; i < filteredWorks.length; i++) {
+        setFigure(filteredWorks[i]);
+    }
+
 }
 
-getWorks();  // Appelle la fonction pour récup tous les travaux au reload
+displayWorks();
 
-async function getCategories() {
+async function displayCategoriesFilters () {
+    const json = await getCategories()
+    
+    // Ajout d'un bouton "Tous"
+    const allDiv = document.createElement("div");
+    allDiv.textContent = "Tous";
+    allDiv.addEventListener("click", () => displayWorks()); // Affiche tous les travaux
+    document.querySelector('.filtersContainer').append(allDiv);
 
-    const url = "http://localhost:5678/api/categories";
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-
-        const json = await response.json();
-
-
-        // Ajout d'un bouton "Tous"
-        const allDiv = document.createElement("div");
-        allDiv.textContent = "Tous";
-        allDiv.addEventListener("click", () => getWorks(undefined)); // Affiche tous les travaux
-        document.querySelector('.filtersContainer').append(allDiv);
-
-        // Ajoute les autres catégories
-        for (let i = 0; i < json.length; i++) {
-            setFilter(json[i]);
-        }
-
-    } catch (error) {
-        console.error(error.message);
+    // Ajoute les autres catégories
+    for (let i = 0; i < json.length; i++) {
+        setFilter(json[i]);
     }
+
 }
 
-getCategories(); // Récup catégories et génère un bouton pour chaque catégorie 
-
-
+displayCategoriesFilters()
 
 function setFigure(data) { // Insère figure HTML (image + titre) dans la gallerie
 
@@ -113,7 +88,7 @@ async function deletePhoto(photoId) {
 
 function setFilter(data) { // Fonction pour ajouter un filtre de catégorie
                 const div = document.createElement("div");
-                div.addEventListener("click", () => getWorks(data.id)); // Utilise l'ID de la catégorie pour filtrer
+                div.addEventListener("click", () => displayWorks(data.id)); // Utilise l'ID de la catégorie pour filtrer
                 div.innerHTML = `${data.name}`; // Ajout nom de la catégorie pour div
                 document.querySelector('.filtersContainer').append(div);  // Insère le div dans le conteneur
             }
