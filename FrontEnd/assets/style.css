@@ -306,7 +306,7 @@ li:hover {
 
 .edit i {
 	margin-right: 8px;
-	/* Espace entre l'icône et le texte */
+	
 }
 
 
@@ -473,7 +473,7 @@ li:hover {
 	font-family: "Syne";
 	font-size: 14px;
 	font-weight: 700;
-	background-color: #a7a7a7;
+	background-color: #1d6154;
 	color: white;
 	border-radius: 60px;
 	width: 237px;
@@ -503,13 +503,15 @@ li:hover {
 
 .containerAddPhoto {
 	display: flex;
-	flex-direction: column;
+	position: relative;
+	justify-content: center;
 	align-items: center;
-	gap: 7px;
 	background-color: #e8f1f6;
-	padding: 19px;
-	border-radius: 3px;
 	margin-bottom: 9px;
+	overflow: hidden;
+	width: 100%;
+    height: 200px;
+
 }
 
 .containerAddPhoto p {
@@ -517,21 +519,36 @@ li:hover {
 }
 
 #previewImage {
-	max-height: 160px;
-	/* position: absolute; */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    display: none;
 }
 
-.labelFile {
-	color: #306685;
-	background-color: #cbd6dc;
-	padding: 10px 33px;
-	border-radius: 50px;
+#uploadLabel {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
-label {
-	font-size: 14px;
-	font-weight: 500;
-	padding-top: 11px;
+#uploadLabel.hidden {
+    display: none;
+}
+
+
+label p {
+	background-color: #aebac1;
+	color: white;
+	border-radius: 60px;
+	padding: 10px 30px;
+	margin: 10px 16px
+
+}
+
+label span {
+	font-size: 10px;
 }
 
 

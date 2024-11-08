@@ -150,17 +150,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Pour voir la photo en prévisualisation avant de l'ajouter
 
-const fileInput = document.getElementById('file');
-const previewImage = document.getElementById('previewImage');
+document.getElementById('file').addEventListener('change', function () {
+    const fileInput = document.getElementById('file');
+    const previewImage = document.getElementById('previewImage');
+    const uploadLabel = document.getElementById('uploadLabel');
+    const file = fileInput.files[0];
 
-fileInput.addEventListener('change', function (event) {
-    const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function (e) {
-            previewImage.src = e.target.result; // pour URL de l'image
-            previewImage.style.display = 'flex'; // preview visible 
+            previewImage.src = e.target.result;
+            previewImage.style.display = 'block'; // Afficher l'image
+            uploadLabel.classList.add('hidden'); // Masquer le bouton de téléchargement
         };
-        reader.readAsDataURL(file); // lit le fichier en tant qu'URL
+        reader.readAsDataURL(file);
     }
 });
+

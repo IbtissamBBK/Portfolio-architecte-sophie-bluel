@@ -38,10 +38,12 @@
 			<button id="close-modal-add-work"><i class="fa-solid fa-xmark"></i></button>
 			<h3 id="titlemodal">Ajout photo</h3>
 			<form id="formAddWork">
-				<div class="containerAddPhoto">
-					<i class="fa-regular fa-image"></i>
-					<label for="file" class="labelFile">+ Ajouter photo</label>
-					<p>jpg, png : 4mo max</p>
+				<div class="containerAddPhoto" id="containerAddPhoto">
+					<label for="file" id="uploadLabel" class="labelFile">
+						<i class="fa-regular fa-image"></i>
+						<p>+ Ajouter photo</p>
+						<span>jpg, png : 4mo max</span>
+					</label>
 					<input type="file" name="image" id="file" accept="image/jpg, image/png" required
 						style="display: none;">
 					<img id="previewImage" src="#" alt="Aperçu de l'image" style="display: none;">
