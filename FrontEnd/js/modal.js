@@ -1,116 +1,139 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Sélection des éléments
-     const modal = document.getElementById('modal');
-     const modalAddWork = document.getElementById('modalAddWork');
- 
-     // Fonction pour ouvrir la modale
-     const openModal = function (targetModal) {
-         targetModal.style.display = 'flex'; // Affiche la modale en flex
-         
-         //Mise à jour des attributs aria (soit caché ou visible)
-         targetModal.setAttribute('aria-hidden', 'false');
-         targetModal.setAttribute('aria-modal', 'true');
-     };
- 
- 
-     // Fonction pour fermer la modale
-     const closeModal = function (targetModal) {
-         targetModal.style.display = 'none'; // Cache la modale
-         targetModal.setAttribute('aria-hidden', 'true'); // Mise à jour des attributs aria
-         targetModal.removeAttribute('aria-modal'); // Supprime l'attribut aria-modal
-     };
- 
-     // Ouvrir la première modale
-     document.querySelectorAll('.js-modal').forEach(button => {  // Sélectionne tous les boutons avec la classe js-modal
-         button.addEventListener('click', function (e) { // Ecouteur d'événements sur chaque bouton
-             e.preventDefault(); // Empêche le comportement par défaut du bouton
-             openModal(modal);   // Ouvre la première modale
-         });
-     });
- 
-    
-     // Bouton de fermeture pour la première modale
-     const closeModalButton = document.getElementById('close-modal'); // Bouton de fermeture
-     if (closeModalButton) { // Si le bouton de fermeture existe
-         closeModalButton.addEventListener('click', () => closeModal(modal)); // Ecouteur d'événements pour fermer la modale
-     }
- 
-     
-     // Fermer la première modale en cliquant en dehors
-     if (modal) { 
-         modal.addEventListener('click', (e) => {
-             if (e.target === modal) {  // Vérifie que le clic est en dehors de la modale pour la fermer
-                 closeModal(modal);
-             }
-         });
-     }
- 
-     // Ouvrir la deuxième modale depuis la première avec le bouton "Ajouter une photo"
-     document.querySelector('.add-photo-button').addEventListener('click', function () {
-         closeModal(modal); 
-         openModal(modalAddWork);
-     });
- 
-     // Bouton de fermeture pour la deuxième modale
-     const closeModalAddWorkButton = document.getElementById('close-modal-add-work');
-     if (closeModalAddWorkButton) {
-         closeModalAddWorkButton.addEventListener('click', () => closeModal(modalAddWork));
-     }
- 
-     // Fermer la deuxième modale en cliquant en dehors
-     if (modalAddWork) {
-         modalAddWork.addEventListener('click', (e) => {
-             if (e.target === modalAddWork) {
-                 closeModal(modalAddWork);
-             }
-         });
-     }
- 
-     // Bouton pour revenir de la deuxième modale à la première
-     document.querySelector('.back-modal').addEventListener('click', function () {
-         closeModal(modalAddWork);
-         openModal(modal);
-     });
- });
- 
+    // Sélection des modales
+    const modal = document.getElementById('modal');
+    const modalAddWork = document.getElementById('modalAddWork');
 
+    // Fonction pour ouvrir une modale
+    const openModal = (modal) => {
+        if (modal) {
+            modal.style.display = 'flex';
+            modal.setAttribute('aria-hidden', 'false');
+            modal.setAttribute('aria-modal', 'true');
+        }
+    };
 
- // Fonction pour charger les catégories depuis l'API
- async function loadCategories() {
-     const urlCategories = 'http://localhost:5678/api/categories';  // Assurez-vous que cette URL est correcte
-     const select = document.getElementById('categoryInput');
-     select.innerHTML = ''; 
- 
-     try {
-         const response = await fetch(urlCategories);
-         if (response.ok) {
-             const categories = await response.json();
+    // Fonction pour fermer une modale
+    const closeModal = (modal) => {
+        if (modal) {
+            modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
+            modal.removeAttribute('aria-modal');
+        }
+    };
 
+    // Ouvrir la première modale avec les boutons
+    document.querySelectorAll('.js-modal').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal(modal);
+        });
+    });
 
-             categories.forEach(category => {
-                 const option = document.createElement('option');
-                 option.value = category.id;  // Utilisez l'ID de la catégorie pour la valeur
-                 option.textContent = category.name;  
-                 select.appendChild(option);
-             });
-         } else {
-             console.error("Erreur lors du chargement des catégories :", response.statusText);
+    // Bouton pour ouvrir la deuxième modale
+    document.querySelector('.add-photo-button')?.addEventListener('click', () => {
+        closeModal(modal);
+        openModal(modalAddWork);
+    });
 
-         }
-     } catch (error) {
-         console.error("Erreur réseau :", error);
+    // Bouton pour revenir à la première modale
+    document.querySelector('.back-modal')?.addEventListener('click', () => {
+        closeModal(modalAddWork);
+        openModal(modal);
+    });
 
-     }
- }
+    // Écouteurs pour les boutons de fermeture (croix)
+    const closeModalButton = document.getElementById('close-modal');
+    const closeModalAddWorkButton = document.getElementById('close-modal-add-work');
 
- loadCategories(); 
+    closeModalButton?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeModal(modal);
+    });
+
+    closeModalAddWorkButton?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeModal(modalAddWork);
+    });
+
+    // Fermer les modales en cliquant en dehors
+    modal?.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal(modal);
+    });
+
+    modalAddWork?.addEventListener('click', (e) => {
+        if (e.target === modalAddWork) closeModal(modalAddWork);
+    });
+});
 
 
 
+// Fonction pour supprimer une photo
+async function deletePhoto(photoId) {
+    const url = `http://localhost:5678/api/works/${photoId}`;
+    const authToken = localStorage.getItem('authToken');
 
- // AJOUTER UN NOUVEAU PROJET
+    if (!confirm("Êtes-vous sûr de vouloir supprimer cette image ?")) return;
 
- document.getElementById('formAddWork').addEventListener('submit', async (event) => {
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Accept': '*/*'
+            }
+        });
+
+        if (response.ok) {
+            // Supprimer dynamiquement l'élément dans la galerie principale
+            const galleryItem = document.querySelector(`.gallery [data-id='${photoId}']`);
+            if (galleryItem) galleryItem.closest('figure').remove();
+
+            // Supprimer dynamiquement l'élément dans la modale
+            const modalItem = document.querySelector(`.gallery-modal [data-id='${photoId}']`);
+            if (modalItem) modalItem.closest('figure').remove();
+
+
+        }
+
+    } catch (error) {
+        console.error("Erreur réseau.", error);
+        alert("Erreur réseau.");
+    }
+}
+
+
+
+// Fonction pour charger les catégories depuis l'API
+async function loadCategories() {
+    const urlCategories = 'http://localhost:5678/api/categories'; // Assurez-vous que cette URL est correcte
+    const select = document.getElementById('categoryInput');
+    select.innerHTML = '';
+
+    try {
+        const response = await fetch(urlCategories);
+        if (!response.ok) {
+            throw new Error(`Erreur lors du chargement des catégories : ${response.statusText}`);
+        }
+
+        const categories = await response.json();
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.id; // Utilisez l'ID de la catégorie pour la valeur
+            option.textContent = category.name;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Erreur réseau :", error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', loadCategories);
+
+
+
+// AJOUTER UN NOUVEAU PROJET
+
+document.getElementById('formAddWork').addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const form = event.target;
@@ -134,10 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (response.ok) {
+            const newProject = await response.json(); // Récupérer les données du projet ajouté
+
+            // Ajouter dynamiquement le nouveau projet dans la galerie et la modale
+            setFigure(newProject);
+
             alert("projet ajouté avec succès.");
             form.reset();  // Réinitialiser le formulaire
             document.getElementById('modalAddWork').style.display = 'none';  // Fermer la modale
-            location.reload();  // Recharger la page pour mettre à jour la galerie
+
         } else {
             alert("Erreur lors de l'ajout du projet.");
         }

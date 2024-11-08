@@ -231,12 +231,15 @@ li:hover {
 	margin-bottom: 0.5em;
 }
 
+
+/*ACCUEIL*/
+
 .projets {
+	text-align: center;
+	margin-bottom: 2em;
+	justify-content: center;
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	margin: 3em 0em 2em;
-
 }
 
 .projets h2 {
@@ -244,7 +247,6 @@ li:hover {
 	margin-right: 15px;
 
 }
-
 .projets a {
 	margin-left: 10px;
 	text-decoration: none;
@@ -255,13 +257,11 @@ li:hover {
 	color: #B1663C;
 }
 
-
 .filtersContainer {
 	display: flex;
 	justify-content: center;
 	gap: 10px;
-	border-radius: 5px;
-	padding: 1em;
+	margin-bottom: 30px;
 }
 
 .filtersContainer>* {
@@ -278,6 +278,8 @@ li:hover {
 	color: white;
 }
 
+/*LOGIN*/
+
 #error-message {
 	display: none;
 	color: red;
@@ -286,9 +288,17 @@ li:hover {
 	text-align: center;
 }
 
+#forgot-password a {
+	text-decoration: none;
+	color: inherit;
+	
+}
+
+/*ADMIN PART*/
+
 .edit {
 	background-color: black;
-	height: 50px;
+	height: 40px;
 	width: 100%;
 	justify-content: center;
 	align-items: center;
@@ -323,7 +333,7 @@ li:hover {
 }
 
 
-/***********************MODAL*********************/
+/*MODAL*/
 
 .modal {
 	position: fixed;
@@ -566,7 +576,7 @@ label span {
 	margin: 0;
 }
 
-/********************MODAL END***********************/
+/********************END***********************/
 
 #contact {
 	width: 50%;
