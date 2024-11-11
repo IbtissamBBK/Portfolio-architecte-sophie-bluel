@@ -124,7 +124,7 @@ document.getElementById('formAddWork').addEventListener('submit', async (event) 
     const url = 'http://localhost:5678/api/works';
     const authToken = localStorage.getItem('authToken');
 
-    // Vérifiez que tous les champs requis sont remplis
+    // Vérifie si tout les champs requis sont remplis
     if (!formData.get('title') || !formData.get('category') || !formData.get('image')) {
         alert("Tous les champs sont requis.");
         return;
@@ -159,7 +159,7 @@ document.getElementById('formAddWork').addEventListener('submit', async (event) 
 
 
 
-// Pour voir la photo en preview avant de l'ajouter
+// Fonction pour la preview de l'image dans la deuxième modal
 
 document.getElementById('file').addEventListener('change', function () {
     const fileInput = document.getElementById('file');

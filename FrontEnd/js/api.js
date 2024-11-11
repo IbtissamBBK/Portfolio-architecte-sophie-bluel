@@ -15,28 +15,28 @@ async function getWorks() { // Récup travaux depuis l'API et filtrer en fonctio
     }
 }
 
-async function getCategories() {
-
+async function getCategories() { // Recup catégories depuis l'API pour filtrer
     const url = "http://localhost:5678/api/categories";
     try {
-        const response = await fetch(url);
+        const response = await fetch(url); // Effectue une requête API et attend la réponse
         if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
+            throw new Error(`Response status: ${response.status}`); // Si la réponse n'est pas OK, lance une erreur avec le statut de la réponse
         }
-
-        const json = await response.json();
-
-        return json
+        const json = await response.json();  // Convertit la réponse en JSON
         
+        return json;
+
     } catch (error) {
-        console.error(error.message);
+        console.error(error.message); // Message erreur dans console
+
     }
 }
 
 
 // FONCTION POUR AJOUTER CATEGORIES POUR DEUXIEME MODAL VIA l'API
+
 async function loadCategories() {
-    const urlCategories = 'http://localhost:5678/api/categories'; // Assurez-vous que cette URL est correcte
+    const urlCategories = 'http://localhost:5678/api/categories';
     const select = document.getElementById('categoryInput');
     select.innerHTML = '';
 
@@ -49,7 +49,7 @@ async function loadCategories() {
         const categories = await response.json();
         categories.forEach(category => {
             const option = document.createElement('option');
-            option.value = category.id; // Utilisez l'ID de la catégorie pour la valeur
+            option.value = category.id;
             option.textContent = category.name;
             select.appendChild(option);
         });
