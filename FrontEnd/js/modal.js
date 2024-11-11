@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Bouton pour ouvrir la deuxième modale
+    // Bouton pour ajouter photo via deuxième modale
     document.querySelector('.add-photo-button')?.addEventListener('click', () => {
         closeModal(modal);
         openModal(modalAddWork);
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         openModal(modal);
     });
 
-    // Écouteurs pour les boutons de fermeture (croix)
+    // Boutons de fermeture (croix) + fermeture extérieur modal
     const closeModalButton = document.getElementById('close-modal');
     const closeModalAddWorkButton = document.getElementById('close-modal-add-work');
 
@@ -67,7 +67,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// Fonction pour supprimer une photo
+// FONCTION POUR SUPPRIMER PHOTO
+
+// Fonction pour supprimer un élément de la galerie
+function removeGalleryItems(photoId) {
+    // Sélectionne à la fois dans la galerie principale et la modale
+    ['.gallery', '.gallery-modal'].forEach(selector => {
+        const item = document.querySelector(`${selector} [data-id='${photoId}']`);
+        // console.log(`Suppression de l'élément avec ID ${photoId} dans ${selector}`);
+        if (item) {
+            item.closest('figure').remove();
+            // console.log(`Élément avec ID ${photoId} supprimé de ${selector}`);
+        }
+    });
+}
+
+// Fonction async pour supprimer une photo
 async function deletePhoto(photoId) {
     const url = `http://localhost:5678/api/works/${photoId}`;
     const authToken = localStorage.getItem('authToken');
@@ -75,6 +90,7 @@ async function deletePhoto(photoId) {
     if (!confirm("Êtes-vous sûr de vouloir supprimer cette image ?")) return;
 
     try {
+        // Effectuer la requête DELETE vers l'API
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
@@ -83,51 +99,18 @@ async function deletePhoto(photoId) {
             }
         });
 
+        // Vérifie si la suppression ok
         if (response.ok) {
-            // Supprimer dynamiquement l'élément dans la galerie principale
-            const galleryItem = document.querySelector(`.gallery [data-id='${photoId}']`);
-            if (galleryItem) galleryItem.closest('figure').remove();
-
-            // Supprimer dynamiquement l'élément dans la modale
-            const modalItem = document.querySelector(`.gallery-modal [data-id='${photoId}']`);
-            if (modalItem) modalItem.closest('figure').remove();
-
-
-        }
+            
+            // Supprime l'élément de la galerie et de la modale
+            removeGalleryItems(photoId);
+        } 
 
     } catch (error) {
         console.error("Erreur réseau.", error);
         alert("Erreur réseau.");
     }
 }
-
-
-
-// Fonction pour charger les catégories depuis l'API
-async function loadCategories() {
-    const urlCategories = 'http://localhost:5678/api/categories'; // Assurez-vous que cette URL est correcte
-    const select = document.getElementById('categoryInput');
-    select.innerHTML = '';
-
-    try {
-        const response = await fetch(urlCategories);
-        if (!response.ok) {
-            throw new Error(`Erreur lors du chargement des catégories : ${response.statusText}`);
-        }
-
-        const categories = await response.json();
-        categories.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category.id; // Utilisez l'ID de la catégorie pour la valeur
-            option.textContent = category.name;
-            select.appendChild(option);
-        });
-    } catch (error) {
-        console.error("Erreur réseau :", error);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', loadCategories);
 
 
 
@@ -147,7 +130,7 @@ document.getElementById('formAddWork').addEventListener('submit', async (event) 
         return;
     }
 
-    try {
+    try { // Envoi des données à l'API
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -156,7 +139,7 @@ document.getElementById('formAddWork').addEventListener('submit', async (event) 
             body: formData
         });
 
-        if (response.ok) {
+        if (response.ok) { // Vérification si la requête a réussi
             const newProject = await response.json(); // Récupérer les données du projet ajouté
 
             // Ajouter dynamiquement le nouveau projet dans la galerie et la modale
@@ -176,7 +159,7 @@ document.getElementById('formAddWork').addEventListener('submit', async (event) 
 
 
 
-// Pour voir la photo en prévisualisation avant de l'ajouter
+// Pour voir la photo en preview avant de l'ajouter
 
 document.getElementById('file').addEventListener('change', function () {
     const fileInput = document.getElementById('file');
