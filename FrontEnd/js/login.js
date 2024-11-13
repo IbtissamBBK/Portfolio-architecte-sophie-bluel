@@ -1,4 +1,3 @@
-
 // Sélection du form avec l'id et ajout d'un événement pour la soumission du formulaire
 document.getElementById('login-form').addEventListener('submit', async function (event) {
 

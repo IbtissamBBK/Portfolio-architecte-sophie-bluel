@@ -1,9 +1,11 @@
-document.addEventListener('DOMContentLoaded', () => {
+//* FONCTION POUR OUVRIR ET FERMER LES MODALES
+
+export function initialiseModal () {
     // Sélection des modales
     const modal = document.getElementById('modal');
     const modalAddWork = document.getElementById('modalAddWork');
 
-    // Fonction pour ouvrir une modale
+    // Fonction pour ouvrir la modale
     const openModal = (modal) => {
         if (modal) {
             modal.style.display = 'flex';
@@ -12,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Fonction pour fermer une modale
+    // Fonction pour fermer la modale
     const closeModal = (modal) => {
         if (modal) {
             modal.style.display = 'none';
@@ -21,12 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Ouvrir la première modale avec les boutons
-    document.querySelectorAll('.js-modal').forEach(button => {
-        button.addEventListener('click', (e) => {
+    // Ouvre la première modale avec les boutons
+    document.querySelector('.js-modal')?.addEventListener('click', (e) => {
             e.preventDefault();
             openModal(modal);
-        });
+        
     });
 
     // Bouton pour ajouter photo via deuxième modale
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         openModal(modalAddWork);
     });
 
-    // Bouton pour revenir à la première modale
+    // Bouton pour revenir en arrièe à la première modale
     document.querySelector('.back-modal')?.addEventListener('click', () => {
         closeModal(modalAddWork);
         openModal(modal);
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModal(modalAddWork);
     });
 
-    // Fermer les modales en cliquant en dehors
+    // Ferme les modales en cliquant en dehors de la fenêtre
     modal?.addEventListener('click', (e) => {
         if (e.target === modal) closeModal(modal);
     });
@@ -63,27 +64,26 @@ document.addEventListener('DOMContentLoaded', () => {
     modalAddWork?.addEventListener('click', (e) => {
         if (e.target === modalAddWork) closeModal(modalAddWork);
     });
-});
+};
 
 
 
-// FONCTION POUR SUPPRIMER PHOTO
+//* FONCTION POUR SUPPRIMER PHOTO
 
-// Fonction pour supprimer un élément de la galerie
+// Fonction pour enlever un élément des galleries (sans supprimer du serveur)
 function removeGalleryItems(photoId) {
-    // Sélectionne à la fois dans la galerie principale et la modale
+    
+    // Sélectionne la galerie principale et la modale
     ['.gallery', '.gallery-modal'].forEach(selector => {
         const item = document.querySelector(`${selector} [data-id='${photoId}']`);
-        // console.log(`Suppression de l'élément avec ID ${photoId} dans ${selector}`);
         if (item) {
             item.closest('figure').remove();
-            // console.log(`Élément avec ID ${photoId} supprimé de ${selector}`);
         }
     });
 }
 
-// Fonction async pour supprimer une photo
-async function deletePhoto(photoId) {
+// Fonction async pour supprimer une photo du serveur via requête API
+export async function deletePhoto(photoId) {
     const url = `http://localhost:5678/api/works/${photoId}`;
     const authToken = localStorage.getItem('authToken');
 
@@ -102,8 +102,7 @@ async function deletePhoto(photoId) {
         // Vérifie si la suppression ok
         if (response.ok) {
             
-            // Supprime l'élément de la galerie et de la modale
-            removeGalleryItems(photoId);
+            removeGalleryItems(photoId); // Supprime l'élément de la galerie et de la modale
         } 
 
     } catch (error) {
@@ -114,7 +113,7 @@ async function deletePhoto(photoId) {
 
 
 
-// AJOUTER UN NOUVEAU PROJET
+//* AJOUTER UN NOUVEAU PROJET 
 
 document.getElementById('formAddWork').addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -140,14 +139,14 @@ document.getElementById('formAddWork').addEventListener('submit', async (event) 
         });
 
         if (response.ok) { // Vérification si la requête a réussi
-            const newProject = await response.json(); // Récupérer les données du projet ajouté
+            const newProject = await response.json(); // Récupère les données du projet ajouté
 
-            // Ajouter dynamiquement le nouveau projet dans la galerie et la modale
+            // Ajoute dynamiquement le nouveau projet dans la galerie et la modale
             setFigure(newProject);
 
             alert("projet ajouté avec succès.");
-            form.reset();  // Réinitialiser le formulaire
-            document.getElementById('modalAddWork').style.display = 'none';  // Fermer la modale
+            form.reset();  // Réinitialise le formulaire
+            document.getElementById('modalAddWork').style.display = 'none';  // Ferme la modale
 
         } else {
             alert("Erreur lors de l'ajout du projet.");
@@ -159,22 +158,23 @@ document.getElementById('formAddWork').addEventListener('submit', async (event) 
 
 
 
-// Fonction pour la preview de l'image dans la deuxième modal
+//* FONCTION POUR LA PREVIEW DE L'IMAGE POUR 2e MODALE
 
 document.getElementById('file').addEventListener('change', function () {
     const fileInput = document.getElementById('file');
     const previewImage = document.getElementById('previewImage');
     const uploadLabel = document.getElementById('uploadLabel');
+    
     const file = fileInput.files[0];
 
     if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            previewImage.src = e.target.result;
-            previewImage.style.display = 'block'; // Afficher l'image
-            uploadLabel.classList.add('hidden'); // Masquer le bouton de téléchargement
+        const reader = new FileReader(); 
+        reader.onload = function (e) { // Lorsque le fichier est chargé, affiche l'image dans l'élément <img>
+            previewImage.src = e.target.result; // Source de l'image
+            previewImage.style.display = 'block'; // Affiche l'image
+            uploadLabel.classList.add('hidden'); // Masque le bouton de téléchargement
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file); // Lit le fichier comme une URL de données
     }
 });
 
